@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ThamannaTech — Learning, Made Personal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #12162A;
+    --ink-soft: #1D2338;
+    --paper: #FAF7F0;
+    --amber: #F2A65A;
+    --amber-soft: #F6C892;
+    --chalk: #8AA6C4;
+    --text-hi: #F4F1E8;
+    --text-lo: #B7BCCF;
+    --line: rgba(244,241,232,0.12);
+    --radius: 14px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--text-hi);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .display {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.08;
+  }
+
+  .mono {
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 0 20px; }
+  }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(18,22,42,0.86);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--amber);
+    box-shadow: 0 0 12px 2px rgba(242,166,90,0.7);
+  }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    font-size: 0.92rem;
+    color: var(--text-lo);
+  }
+  .nav-links a { transition: color 0.2s ease; }
+  .nav-links a:hover { color: var(--text-hi); }
+  .nav-cta {
+    padding: 10px 20px;
+    border: 1px solid var(--amber);
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--amber-soft);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+  .nav-cta:hover { background: var(--amber); color: var(--ink); }
+  .nav-mobile-hide { display: flex; }
+  @media (max-width: 760px) { .nav-mobile-hide { display: none; } }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    padding: 100px 0 40px;
+    position: relative;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+  }
+  .eyebrow {
+    color: var(--amber-soft);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 22px; height: 1px;
+    background: var(--amber-soft);
+  }
+  .hero h1 {
+    font-size: clamp(2.3rem, 5vw, 3.4rem);
+    color: var(--text-hi);
+    margin-bottom: 22px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--amber-soft);
+  }
+  .hero p.lead {
+    font-size: 1.12rem;
+    color: var(--text-lo);
+    max-width: 46ch;
+    margin-bottom: 34px;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+  }
+  .btn-primary, .btn-secondary {
+    padding: 14px 26px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary {
+    background: var(--amber);
+    color: var(--ink);
+  }
+  .btn-primary:hover { background: var(--amber-soft); transform: translateY(-1px); }
+  .btn-secondary {
+    border: 1px solid var(--line);
+    color: var(--text-hi);
+  }
+  .btn-secondary:hover { border-color: var(--chalk); color: var(--chalk); }
+  .byline {
+    color: var(--text-lo);
+    font-size: 0.85rem;
+  }
+  .byline strong { color: var(--text-hi); font-weight: 600; }
+
+  /* ---------- SIGNATURE PATH VISUAL ---------- */
+  .path-panel {
+    position: relative;
+    background: var(--ink-soft);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 28px 20px;
+    aspect-ratio: 4/5;
+  }
+  .path-panel svg { width: 100%; height: 100%; overflow: visible; }
+  .path-line {
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-dasharray: 500;
+    stroke-dashoffset: 500;
+    animation: draw 2.2s ease forwards;
+  }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .node {
+    fill: var(--ink-soft);
+    stroke-width: 1.6;
+  }
+  .node-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8.5px;
+    fill: var(--text-lo);
+    letter-spacing: 0.03em;
+  }
+  .traveler {
+    r: 3.2;
+    filter: drop-shadow(0 0 5px currentColor);
+  }
+  .t1 { fill: var(--amber); color: var(--amber); offset-path: path('M40,300 C 100,250 140,180 210,150 C 280,120 320,150 360,150'); animation: moveT 4.5s linear infinite; }
+  .t2 { fill: var(--chalk); color: var(--chalk); offset-path: path('M40,300 C 90,320 150,340 210,320 C 280,300 320,220 360,150'); animation: moveT 5.6s linear infinite 0.6s; }
+  .t3 { fill: #E39B71; color: #E39B71; offset-path: path('M40,300 C 80,270 120,400 210,410 C 300,420 340,260 360,150'); animation: moveT 6.4s linear infinite 1.2s; }
+  @keyframes moveT { from { offset-distance: 0%; opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } to { offset-distance: 100%; opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .path-line { animation: none; stroke-dashoffset: 0; }
+    .traveler { animation: none; opacity: 0.9; }
+  }
+  .panel-caption {
+    position: absolute;
+    bottom: 18px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-lo);
+  }
+
+  /* ---------- SECTION SHARED ---------- */
+  section { padding: 96px 0; }
+  .section-head { max-width: 640px; margin-bottom: 56px; }
+  .section-head .eyebrow { margin-bottom: 16px; }
+  .section-head h2 {
+    font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+    color: var(--text-hi);
+  }
+  .section-head p {
+    color: var(--text-lo);
+    margin-top: 16px;
+    font-size: 1.02rem;
+  }
+
+  /* ---------- PROBLEM ---------- */
+  .problem {
+    background: var(--ink-soft);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  @media (max-width: 800px) { .problem-grid { grid-template-columns: 1fr; gap: 32px; } }
+  .problem h2 {
+    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+    color: var(--text-hi);
+  }
+  .problem p { color: var(--text-lo); font-size: 1.02rem; margin-top: 18px; }
+  .stat-row {
+    display: flex;
+    gap: 30px;
+    margin-top: 8px;
+  }
+  .stat { border-left: 2px solid var(--amber); padding-left: 14px; }
+  .stat .num { font-family: 'Fraunces', serif; font-size: 1.6rem; color: var(--amber-soft); }
+  .stat .lbl { color: var(--text-lo); font-size: 0.82rem; margin-top: 2px; }
+
+  /* ---------- FEATURES ---------- */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  @media (max-width: 860px) { .feature-grid { grid-template-columns: 1fr; } }
+  .feature-card {
+    background: var(--ink-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 30px 26px;
+    transition: border-color 0.25s ease, transform 0.25s ease;
+  }
+  .feature-card:hover { border-color: var(--amber); transform: translateY(-3px); }
+  .feature-icon {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    background: rgba(242,166,90,0.12);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+  }
+  .feature-card h3 { font-size: 1.15rem; color: var(--text-hi); margin-bottom: 10px; }
+  .feature-card p { color: var(--text-lo); font-size: 0.95rem; }
+  .feature-tag { display: inline-block; margin-top: 16px; color: var(--amber-soft); font-size: 0.78rem; }
+
+  /* ---------- MODES ---------- */
+  .modes {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .mode-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 22px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--text-lo);
+    font-size: 0.92rem;
+  }
+  .mode-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--chalk); }
+
+  /* ---------- VISION / MISSION ---------- */
+  .vm {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .vm-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+  }
+  @media (max-width: 800px) { .vm-grid { grid-template-columns: 1fr; } }
+  .vm-card .mono { color: #A46A3A; }
+  .vm-card blockquote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.3;
+    margin-top: 18px;
+    color: var(--ink);
+  }
+  .vm-card p.sub { color: #5B5A52; margin-top: 14px; font-size: 0.95rem; }
+
+  /* ---------- AUDIENCE ---------- */
+  .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 860px) { .audience-grid { grid-template-columns: 1fr; } }
+  .audience-card {
+    padding: 26px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+  }
+  .audience-card .mono { color: var(--chalk); }
+  .audience-card h3 { font-size: 1.05rem; margin-top: 10px; color: var(--text-hi); font-family: 'Inter'; font-weight: 600; }
+
+  /* ---------- CTA / FOOTER ---------- */
+  .cta {
+    background: var(--ink-soft);
+    border-top: 1px solid var(--line);
+  }
+  .cta-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+  .cta h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); max-width: 16ch; }
+  .cta-form {
+    display: flex;
+    gap: 10px;
+    min-width: 320px;
+  }
+  .cta-form input {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 13px 18px;
+    color: var(--text-hi);
+    font-family: 'Inter';
+    font-size: 0.92rem;
+  }
+  .cta-form input::placeholder { color: var(--text-lo); }
+  .cta-form input:focus { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+  footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    color: var(--text-lo);
+    font-size: 0.85rem;
+  }
+  footer .logo { font-size: 1rem; }
+
+  :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#top" class="logo"><span class="dot"></span>ThamannaTech</a>
+    <div class="nav-links nav-mobile-hide">
+      <a href="#how">How it adapts</a>
+      <a href="#vision">Vision</a>
+      <a href="#audience">Who it's for</a>
+    </div>
+    <a href="#join" class="nav-cta">Get early access</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow mono">AI-powered · EdTech</div>
+      <h1>Every learner takes a <em>different path</em> to the same finish line.</h1>
+      <p class="lead">ThamannaTech is an AI-powered learning platform that studies how you learn — your pace, your gaps, your goals — and builds the path that gets you there.</p>
+      <div class="hero-actions">
+        <a href="#how" class="btn-primary">See how it adapts →</a>
+        <a href="#join" class="btn-secondary">Join early access</a>
+      </div>
+      <div class="byline">Founded by <strong>Thamanna.M</strong> · Built for school &amp; college students</div>
+    </div>
+
+    <div class="path-panel">
+      <svg viewBox="0 0 400 480" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="300" r="5" fill="var(--text-hi)"></circle>
+        <text x="14" y="325" class="node-label">START</text>
+
+        <path class="path-line" d="M40,300 C 100,250 140,180 210,150 C 280,120 320,150 360,150" stroke="var(--amber)"></path>
+        <path class="path-line" d="M40,300 C 90,320 150,340 210,320 C 280,300 320,220 360,150" stroke="var(--chalk)" style="animation-delay:0.25s"></path>
+        <path class="path-line" d="M40,300 C 80,270 120,400 210,410 C 300,420 340,260 360,150" stroke="#E39B71" style="animation-delay:0.5s"></path>
+
+        <circle cx="210" cy="150" r="3" class="node" stroke="var(--amber)"></circle>
+        <text x="216" y="140" class="node-label">focus areas</text>
+
+        <circle cx="210" cy="320" r="3" class="node" stroke="var(--chalk)"></circle>
+        <text x="216" y="335" class="node-label">your pace</text>
+
+        <circle cx="210" cy="410" r="3" class="node" stroke="#E39B71"></circle>
+        <text x="216" y="425" class="node-label">practice</text>
+
+        <circle cx="360" cy="150" r="6" fill="var(--ink-soft)" stroke="var(--text-hi)" stroke-width="1.6"></circle>
+        <text x="336" y="130" class="node-label">MASTERY</text>
+
+        <circle class="traveler t1"></circle>
+        <circle class="traveler t2"></circle>
+        <circle class="traveler t3"></circle>
+      </svg>
+      <div class="panel-caption mono">
+        <span>3 learners</span>
+        <span>1 destination</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="problem">
+  <div class="wrap problem-grid">
+    <div>
+      <h2>School wasn't built for one student. It was built for thirty.</h2>
+    </div>
+    <div>
+      <p>Traditional education follows a common approach for every student, even though every learner has different abilities, interests, and learning speeds. ThamannaTech was built to change that — making education personalized for every learner, not just the average one.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="num">1:1</div><div class="lbl">Learning ratio, powered by AI</div></div>
+        <div class="stat"><div class="num">24/7</div><div class="lbl">AI Tutor availability</div></div>
+        <div class="stat"><div class="num">3</div><div class="lbl">Learning modes: online, offline, hybrid</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow mono">How ThamannaTech adapts</div>
+      <h2>One platform, three ways it learns you back.</h2>
+      <p>The AI doesn't just deliver content — it watches how you engage with it, and adjusts.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.8"><path d="M3 12c3-6 6-9 9-9s6 3 9 9-6 9-9 9-9-3-9-9Z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <h3>Personalized Learning</h3>
+        <p>Adapts learning content to each student's needs, adjusting difficulty and direction as understanding grows.</p>
+        <span class="feature-tag mono">Adapts to you</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.8"><path d="M12 4v4M12 16v4M4 12h4M16 12h4"/><circle cx="12" cy="12" r="4"/></svg>
+        </div>
+        <h3>AI Tutor</h3>
+        <p>Gives instant explanations, guidance, and practice — so support is there the moment a question comes up, not the next day.</p>
+        <span class="feature-tag mono">Always on</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.8"><path d="M4 19V5M4 19h16M8 15l3-4 3 3 4-6"/></svg>
+        </div>
+        <h3>Smart Learning Support</h3>
+        <p>Surfaces exactly where a student is struggling, so effort goes toward the concepts that actually need it.</p>
+        <span class="feature-tag mono">Finds the gap</span>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;">
+      <div class="mono" style="color:var(--text-lo); margin-bottom:16px;">Learn your way</div>
+      <div class="modes">
+        <div class="mode-pill"><span class="dot"></span>Online</div>
+        <div class="mode-pill"><span class="dot"></span>Offline</div>
+        <div class="mode-pill"><span class="dot"></span>Hybrid</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="vm" id="vision">
+  <div class="wrap vm-grid">
+    <div class="vm-card">
+      <div class="mono">Vision</div>
+      <blockquote>“Make education personalized for everyone.”</blockquote>
+      <p class="sub">A learning experience that treats every student as one of one — not one of thirty.</p>
+    </div>
+    <div class="vm-card">
+      <div class="mono">Mission</div>
+      <blockquote>“Empower learners with AI-driven education.”</blockquote>
+      <p class="sub">AI as a tutor that knows the student, not a system that grades them.</p>
+    </div>
+  </div>
+</section>
+
+<section id="audience">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow mono">Who it's for</div>
+      <h2>Built for learners, not just classrooms.</h2>
+    </div>
+    <div class="audience-grid">
+      <div class="audience-card">
+        <div class="mono">01</div>
+        <h3>School students</h3>
+      </div>
+      <div class="audience-card">
+        <div class="mono">02</div>
+        <h3>College students</h3>
+      </div>
+      <div class="audience-card">
+        <div class="mono">03</div>
+        <h3>Learners looking for personalized academic support</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="join">
+  <div class="wrap cta-grid">
+    <h2>Learning that finally moves at your pace.</h2>
+    <form class="cta-form" onsubmit="event.preventDefault();">
+      <input type="email" placeholder="you@school.edu" aria-label="Email address" required>
+      <button type="submit" class="btn-primary">Get early access</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; width:100%;">
+    <a href="#top" class="logo"><span class="dot"></span>ThamannaTech</a>
+    <span>ThamannaTech is an AI-powered personalized learning platform that makes education more accessible, flexible, and student-centered.</span>
+    <span>Founded by Thamanna.M</span>
+  </div>
+</footer>
+
+</body>
+</html>
